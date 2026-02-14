@@ -1,59 +1,54 @@
-# TLWEB
+# todo-app-ecs : Dockerized Angular App
+This repository contains the frontend for the TodoList application. It is built using Angular and served via Nginx using a multi-stage Docker build for maximum efficiency and small image size.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.6.
 
-## Development server
+# Getting Started
+**Prerequisites**
+Docker Desktop installed.
+Node.js 20+ (optional, for local development).
 
-To start a local development server, run:
+**Local Development (without Docker)**
+Install dependencies: npm install --legacy-peer-deps
+Run the app: ng serve
+Navigate to http://localhost:4200
 
-```bash
-ng serve
-```
+**Docker Workflow**
+We use a multi-stage build to compile the app in a Node environment and then serve the static assets using a lightweight Nginx Alpine image.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+1. Build the Image
+From the root directory, run:
 
-## Code scaffolding
+<<Bash>>
+docker build -t todo-app -f dockerfile-multi-stage .
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+2. Run the Container
+Map port 8080 on your machine to port 80 in the container:
 
-```bash
-ng generate component component-name
-```
+<<Bash>>
+docker run -d -p 8080:80 --name todo-app todo-app
+Now visit http://localhost:8080.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**Deployment to AWS (T3 Free Tier)**
+To avoid crashing the low-memory AWS T3 instance during the build process, follow the Build-Push-Pull strategy:
 
-```bash
-ng generate --help
-```
+Build & Tag Locally:
 
-## Building
+<<Bash>>
+docker tag todo-app your-dockerhub-username/todo-app:latest
+Push to Registry:
 
-To build the project run:
+<<Bash>>
+docker push your-dockerhub-username/todo-app:latest
+Pull & Run on AWS:
+SSH into your EC2 instance and run:
 
-```bash
-ng build
-```
+<<Bash>>
+docker pull your-dockerhub-username/todo-app:latest
+docker run -d -p 80:80 --name todo-production your-dockerhub-username/todo-app:latest
+🛠 Project Structure Notes
+nginx.conf: Configured to handle Angular client-side routing (redirects 404s to index.html).
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+SSR Handling: The Dockerfile automatically renames index.csr.html to index.html to ensure Nginx serves the client-side entry point correctly.
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Output Path: Build artifacts are located in dist/TL.WEB/browser.ion on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
