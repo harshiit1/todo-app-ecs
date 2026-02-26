@@ -21,9 +21,22 @@ pipeline {
                 echo "Tester write Tests"
             }
         }
+        stage("Push to Docker Hub"){
+            steps {
+                  withCredentials([usernamePassword(
+                    credentialsId: "dockerHubCred",
+                    passwordVariable: "dockerHubPass",
+                    usernameVariable: "dockerHubUser"
+                  )]){
+                    sh "docker login -u ${dockerHubUser} -p ${dockerHubPass}"
+                    sh "docker image tag todo-app-ecs ${dockerHubUser}/todo-app-ecs"
+                    sh "docker push ${dockerHubUser}/todo-app-ecs"
+                  }
+            }
+        }
         stage("Deploy"){
             steps {
-                sh "docker compose up -d --build todo-app"
+                sh "docker compose up -d --build todo-app:latest"
             }
         }
     }
