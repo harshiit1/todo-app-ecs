@@ -104,6 +104,7 @@ export class AuthViewService {
 
       this.authFacade.doLogin(userName, passwd);
     }
+    console.log("navigateToDashboard ")
     this.authFacade.navigateToDashboard();
     // this.route.navigate(['/todo-app/dashboard']);
   }
