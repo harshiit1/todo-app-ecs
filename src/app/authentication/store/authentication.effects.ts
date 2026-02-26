@@ -28,7 +28,7 @@ export class AuthenticationEffects {
       this.actions$.pipe(
         ofType(AuthenticationActions.NavigateToDashboardPage),
         tap(() => {
-          return this.router.navigate(['/todo-app/dashboard']);
+          return this.router.navigate(['/todo-app']);
         }),
       ),
     { dispatch: false },

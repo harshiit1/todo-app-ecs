@@ -13,6 +13,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { AuthenticationReducer } from './authentication/store/authentication.reducer';
+import { AuthenticationEffects } from './authentication/store/authentication.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,7 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       authentication: AuthenticationReducer,
     }),
-    provideEffects(),
+    provideEffects([AuthenticationEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };
