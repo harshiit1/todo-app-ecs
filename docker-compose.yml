@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  todo-app:
+    build:
+      context: .
+      dockerfile: Dockerfile-multi-stage
+
+    image: harshit26bhardwaj/todo-app-ecs:latest
+    container_name: todo-app-ecs
+
+    ports:
+      -  "8000:80"
+    restart: always
