@@ -11,6 +11,10 @@ export class AuthenticationFacade {
     this.store.dispatch(AuthenticationActions.DoLogin({ email, password }));
   }
 
+  navigateToDashboard() {
+    this.store.dispatch(AuthenticationActions.NavigateToDashboardPage());
+  }
+
   navigateTosignIn() {
     this.store.dispatch(AuthenticationActions.NavigateToSignInPage());
   }
