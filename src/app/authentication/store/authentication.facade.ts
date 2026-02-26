@@ -7,6 +7,10 @@ import * as AuthenticationActions from './authentication.actions';
   providedIn: 'root',
 })
 export class AuthenticationFacade {
+  doLogin(email: string, password: string) {
+    this.store.dispatch(AuthenticationActions.DoLogin({ email, password }));
+  }
+
   navigateTosignIn() {
     this.store.dispatch(AuthenticationActions.NavigateToSignInPage());
   }

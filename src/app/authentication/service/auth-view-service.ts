@@ -23,7 +23,7 @@ export class AuthViewService {
   constructor(
     public fb: UntypedFormBuilder,
     public route: Router,
-    public authFacade: AuthenticationFacade
+    public authFacade: AuthenticationFacade,
   ) {}
 
   onInit() {
@@ -98,7 +98,14 @@ export class AuthViewService {
 
   onSignInButtonClick() {
     console.log('Sign In Button Clicked');
-    this.route.navigate(['/todo-app/dashboard']);
+    if (this.signInForm.valid) {
+      const userName = this.signInForm.get('email')?.value;
+      const passwd = this.signInForm.get('password')?.value;
+
+      this.authFacade.doLogin(userName, passwd);
+    }
+    this.authFacade.navigateToDashboard();
+    // this.route.navigate(['/todo-app/dashboard']);
   }
 
   onDestroy(): void {
