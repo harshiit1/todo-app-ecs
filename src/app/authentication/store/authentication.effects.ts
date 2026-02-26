@@ -23,6 +23,17 @@ export class AuthenticationEffects {
     ),
   );
 
+   NavigateToDashboardPage$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthenticationActions.NavigateToDashboardPage),
+        tap(() => {
+          return this.router.navigate(['/todo-app/dashboard']);
+        }),
+      ),
+    { dispatch: false },
+  );
+
   NavigateToSignInPage$ = createEffect(
     () =>
       this.actions$.pipe(
