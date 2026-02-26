@@ -36,7 +36,7 @@ pipeline {
         }
         stage("Deploy"){
             steps {
-                sh "docker compose up -d --build todo-app:latest"
+                sh "docker compose up -d --build todo-app"
             }
         }
     }
